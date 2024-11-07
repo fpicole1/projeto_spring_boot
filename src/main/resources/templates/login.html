@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+		<title>Login</title>
+	
+		<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Varela+Round"/> -->
+		<link rel="stylesheet" type="text/css" href="../static/css/login.css" th:href="@{/css/login.css}"/>
+
+		<!--[if lt IE 9]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+		<sec:csrfMetaTags />
+    </head>
+    <body style="text-align: left;">
+    <div th:replace="fragments/header :: header-login"></div>
+	<div id="login">
+		<h2><span class="fontawesome-lock"></span>Login</h2>
+        <form th:action="@{/login}" method="post" style="margin: -4px">
+			<fieldset>
+				<p><label for="user">Usuario</label></p>
+				<p><input type="text" id="username" name="username" value="login" onBlur="if(this.value=='')this.value='login'" onFocus="if(this.value=='login')this.value=''"/></p> <!-- JS because of IE support; better: placeholder="mail@address.com" -->
+
+				<p><label for="password">Senha</label></p>
+				<p><input type="password" id="password" name="password" value="senha" onBlur="if(this.value=='')this.value='senha'" onFocus="if(this.value=='senha')this.value=''"/></p> <!-- JS because of IE support; better: placeholder="password" -->
+	
+				<p><input type="submit" value="Login"/></p>
+				<div th:if="${param.error}" style="text-align: center; color: DarkRed;">
+					<label> Usuario ou senha inválido.</label>
+				</div>
+			</fieldset>
+        	<div th:if="${param.logout}">
+            	Voce está deslogado
+        	</div>
+		</form>
+	</div> <!-- end login -->
+        
+    </body>
+</html>

@@ -1,0 +1,90 @@
+<h4 class="text-center">Cidade</h4>
+<div class="container" data-ng-show="cidade">
+    <form name="form" ng-submit="salvar(form)" novalidate>
+        <div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="nome">Nome:</label>
+					<input type="text" id="nome" class="form-control" ng-model="cidade.nome" name="nome" required>
+					<div ng-show="form.$submitted && form.nome.$invalid" class="erro">
+						<small class="text-danger">O campo nome é obrigatório.</small>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="codigoIbge">Código ibge:</label>
+					<input type="number" id="codigoIbge" class="form-control" ng-model="cidade.codigoIbge" 
+						   name="codigoIbge" required ng-keydown="validarEntrada($event)"  ng-pattern="/^[0-9]*$/">
+					<div ng-show="form.$submitted && form.codigoIbge.$error.required">
+						<small class="text-danger">O campo código IBGE é obrigatório e deve ser um número válido.</small>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="pais">Estado:</label>
+					<select id="pais" class="form-control" ng-model="cidade.estado" convert-to-number ng-options="estado.nome for estado in estados track by estado.id" required>
+						<option value="">Selecione um estado</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-6">
+
+			</div>
+		</div>
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="button" class="btn btn-secondary" data-ng-click="cidade = undefined">Cancelar</button>
+    </form>
+</div>
+
+<div class="container" data-ng-show="!cidade">
+    <button type="button" class="btn btn-success mb-3" data-ng-click="novo()">Novo</button>
+
+    <table class="table table-bordered table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Código Ibge</th>
+                <th>Estado</th>
+                <th class="text-center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="cidade in cidades">
+                <td>{{ cidade.id }}</td>
+                <td>{{ cidade.nome }}</td>
+                <td>{{ cidade.codigoIbge }}</td>
+                <td>{{ cidade.estado.nome }}</td>
+                <td class="text-center">
+                    <div class="dropdown">
+						<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fas fa-cog"></i> Ações
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" data-ng-click="editar(cidade)">
+								 <i class="fas fa-edit"></i>Editar
+							</a>
+							<a class="dropdown-item" data-ng-click="excluir(cidade)">
+								<i class="fas fa-trash"></i>Excluir
+							</a>
+						</div>
+					</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<style type="text/css">
+	.dropdown-toggle::after {
+		display: none; /* Oculta o ícone de setinha */
+	}
+</style>

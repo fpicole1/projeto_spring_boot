@@ -1,0 +1,70 @@
+<h4 class="text-center">País</h4>
+<div class="container" data-ng-show="pais">
+    <form name="form" ng-submit="salvar(form)" novalidate>
+        <div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="id">Id:</label>
+					<input type="text" id="id" class="form-control" ng-model="pais.id" disabled>
+				</div>	
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="nome">Nome:</label>
+					<input type="text" id="nome" class="form-control" ng-model="pais.nome" name="nome" required>
+					<div ng-show="form.$submitted && form.nome.$invalid">
+						<small class="text-danger">O campo nome é obrigatório.</small>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<button type="submit" class="btn btn-primary">Salvar</button>
+		<button type="button" class="btn btn-secondary" data-ng-click="pais = undefined">Cancelar</button>
+    </form>
+</div>
+
+<!-- Tabela -->
+<div class="container" data-ng-show="!pais">
+    <button type="button" class="btn btn-success mb-3" data-ng-click="novo()">
+		<i class="fa fa-plus"></i> Novo</button>
+
+    <table class="table table-bordered table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th class="text-center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="pais in paises">
+                <td>{{ pais.id}}</td>
+                <td>{{ pais.nome}}</td>
+                <td class="text-center">
+                    <div class="dropdown">
+						<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fas fa-cog"></i> Ações
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" data-ng-click="editar(pais)">
+								 <i class="fas fa-edit"></i>Editar
+							</a>
+							<a class="dropdown-item" data-ng-click="excluir(pais)">
+								<i class="fas fa-trash"></i>Excluir
+							</a>
+						</div>
+					</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<style type="text/css">
+	.dropdown-toggle::after {
+		display: none; /* Oculta o ícone de setinha */
+	}
+</style>

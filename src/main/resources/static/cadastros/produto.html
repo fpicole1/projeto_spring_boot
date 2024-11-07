@@ -1,0 +1,142 @@
+<h4 class="text-center">Produto</h4>
+<div class="container" data-ng-show="produto">
+    <form name="form" ng-submit="salvar(form)" novalidate>
+        <div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="id">Id:</label>
+					<input type="text" id="id" class="form-control" ng-model="produto.id" disabled>
+				</div>	
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="nome">Nome:</label>
+					<input type="text" id="nome" class="form-control" ng-model="produto.nome" name="nome" required>
+					<div ng-show="form.$submitted && form.nome.$invalid">
+						<small class="text-danger">O campo nome é obrigatório.</small>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="codigo">Código SKU:</label>
+					<input type="text" id="codigo" class="form-control" ng-model="produto.codigoSku" name="codigoSku" required>
+					<div ng-show="form.$submitted && form.codigoSku.$invalid">
+						<small class="text-danger">O campo código sku é obrigatório.</small>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-4">
+				<label for="custo">Custo :</label>
+				<input type="number" id="custo" class="form-control" ng-model="produto.custo" name="custo" step="0.01" required>
+				<div ng-show="form.$submitted && form.custo.$invalid">
+					<small class="text-danger">O campo custo é obrigatório.</small>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<label for="preco">Preço venda:</label>
+				<input type="number" id="preco" class="form-control" ng-model="produto.precoVenda" name="precoVenda" step="0.01" required>
+				<div ng-show="form.$submitted && form.precoVenda.$invalid">
+					<small class="text-danger">O campo preço venda é obrigatório.</small>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<label>Ativo:</label>
+				<div>
+					<label>
+						<input type="radio" ng-model="produto.ativo" ng-checked="produto.ativo === true"  value="true"> Sim
+					</label>
+					<label>
+						<input type="radio" ng-model="produto.ativo" ng-checked="produto.ativo === false" value="false"> Não
+					</label>
+				</div>
+				<div ng-show="form.$submitted && form.ativo.$invalid">
+					<small class="text-danger">O campo ativo é obrigatório.</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="categoria">Categoria:</label>
+					<select id="categoria" class="form-control" ng-model="produto.categoria" 
+							convert-to-number ng-options="categoria.nome for categoria in categorias track by categoria.id" required>
+						<option value="">Selecione uma categoria</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="obs">Observações:</label>
+					<textarea id="obs" class="form-control" ng-model="produto.observacoes" name="observacoes" rows="4"></textarea>
+					<div ng-show="form.$submitted && form.observacoes.$invalid">
+						<small class="text-danger">O campo observações é obrigatório.</small>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<button type="submit" class="btn btn-primary">Salvar</button>
+		<button type="button" class="btn btn-secondary" data-ng-click="produto = undefined">Cancelar</button>
+    </form>
+</div>
+
+<!-- Tabela -->
+<div class="container" data-ng-show="!produto">
+    <button type="button" class="btn btn-success mb-3" data-ng-click="novo()">
+		<i class="fa fa-plus"></i> Novo</button>
+
+    <table class="table table-bordered table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+				<th>Código SKU</th>
+				<th>Custo</th>
+				<th>Preço venda</th>
+				<th>Ativo?</th>
+				<th>Categoria</th>
+                <th class="text-center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="produto in produtos">
+                <td>{{ produto.id}}</td>
+                <td>{{ produto.nome}}</td>
+				<td>{{ produto.codigoSku}}</td>
+				<td>{{ produto.custo}}</td>
+				<td>{{ produto.precoVenda}}</td>
+				<td>{{ produto.ativo ? 'Sim' : 'Não'}}</td>
+				<td>{{ produto.categoria.nome }}</td>
+                <td class="text-center">
+                    <div class="dropdown">
+						<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fas fa-cog"></i> Ações
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" data-ng-click="editar(produto)">
+								<i class="fas fa-edit"></i>Editar
+							</a>
+							<a class="dropdown-item" data-ng-click="excluir(produto)">
+								<i class="fas fa-trash"></i>Excluir
+							</a>
+						</div>
+					</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<style type="text/css">
+	.dropdown-toggle::after {
+		display: none; /* Oculta o ícone de setinha */
+	}
+</style>
